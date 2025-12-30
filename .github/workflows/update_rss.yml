@@ -1,0 +1,23 @@
+name: Update Podcast RSS
+on:
+  push:
+    paths:
+      - 'audio/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Run Script
+        run: python scripts/generate_rss.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name "xiaoyupodcast"
+          git config --global user.email "xiaoyu.podcast@gmail.com"
+          git add rss.xml
+          git commit -m "Update RSS with new episode"
+          git push
